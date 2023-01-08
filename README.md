@@ -1,1 +1,1 @@
-# Create reacr typScript chess
+# Create react typScript chess

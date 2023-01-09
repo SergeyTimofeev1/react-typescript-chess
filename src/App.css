@@ -29,6 +29,11 @@
   justify-content: center;
 }
 
+.cell img {
+  height: 62px;
+  position: relative;
+}
+
 .black {
   background: #ff6e40;
 }

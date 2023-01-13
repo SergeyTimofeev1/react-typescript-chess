@@ -12,10 +12,10 @@ interface BoardProps {
 const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
 
-  function click (cell:Cell) {
-    console.log({x:cell.x, y:cell.y});
-    
-    if(selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
+  function click(cell: Cell) {
+    console.log({ x: cell.x, y: cell.y })
+
+    if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
       selectedCell.moveFigure(cell)
       setSelectedCell(null)
     } else {
@@ -32,7 +32,7 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
     updateBord()
   }
 
-  function updateBord () {
+  function updateBord() {
     const newBoard = board.getCopyBoard()
     setBoard(newBoard)
   }
@@ -41,10 +41,10 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
     <div className="board">
       {board.cells.map((row, index) =>
         <React.Fragment key={index}>
-          {row.map(cell => 
-            <CellComponent 
+          {row.map(cell =>
+            <CellComponent
               cell={cell}
-              key={cell.id} 
+              key={cell.id}
               selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
               click={click}
             />

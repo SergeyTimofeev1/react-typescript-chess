@@ -7,7 +7,7 @@ export class Cell {
   readonly y: number;
   readonly color: Colors;
   figure: Figure | null;
-  board: Board; 
+  board: Board;
   available: boolean;
   id: number; // реакт ключи
 
@@ -21,11 +21,49 @@ export class Cell {
     this.id = Math.random()
   }
 
+  // из-за кольцевой зависимости ячейки и фигуры, при ходе в конкретную ячейку
+  // надо указать явно фигуру которая встает в ячейку , а у фигуры указать ячейку, в которую она встает
+  setFigure(figure: Figure) {
+    this.figure = figure
+    this.figure.cell = this
+  }
+
+  // target это возможные варианты хода для каждой фигуры
   moveFigure(target: Cell) {
-    if(this.figure && this.figure?.canMove(target)) {
-       this.figure.moveFigure(target)
-       target.figure = this.figure
-       this.figure = null 
+    if (this.figure && this.figure?.canMove(target)) {
+      this.figure.moveFigure(target)
+      target.setFigure(this.figure)
+      this.figure = null
     }
   }
+
+  isEmpty(): boolean {
+    return this.figure === null
+  }
+
+  isEmptyHorizontal(target: Cell): boolean {
+    return true
+  }
+
+  isEmptyVertical(target: Cell): boolean {
+
+    if (this.x !== target.x) {
+      return false
+    }
+
+    const min = Math.min(this.y, target.y)
+    const max = Math.max(this.y, target.y)
+
+    for (let y = min + 1; y < max; y++) {
+      if (!this.board.getCell(this.x, y).isEmpty()) {
+        return false
+      }
+    }
+    return true
+  }
+
+  isEmptyDiagonal(): boolean {
+    return true
+  }
+
 }

@@ -1,15 +1,15 @@
-import { Board } from './Board';
+import { Board } from './Board'
 import { Colors } from './Colors'
-import { Figure } from './figures/Figure';
+import { Figure } from './figures/Figure'
 
 export class Cell {
-  readonly x: number;
-  readonly y: number;
-  readonly color: Colors;
-  figure: Figure | null;
-  board: Board;
-  available: boolean;
-  id: number; // реакт ключи
+  readonly x: number
+  readonly y: number
+  readonly color: Colors
+  figure: Figure | null
+  board: Board
+  available: boolean
+  id: number // реакт ключи
 
   constructor(board: Board, x: number, y: number, color: Colors, figure: Figure | null) {
     this.board = board
@@ -41,6 +41,13 @@ export class Cell {
     return this.figure === null
   }
 
+  isEnemy(target: Cell): boolean {
+    if (target.figure) {
+      return this.figure?.color !== target.figure.color
+    }
+    return false
+  }
+
   isEmptyHorizontal(target: Cell): boolean {
     if (this.y !== target.y) {
       return false
@@ -58,7 +65,6 @@ export class Cell {
   }
 
   isEmptyVertical(target: Cell): boolean {
-
     if (this.x !== target.x) {
       return false
     }
@@ -97,5 +103,4 @@ export class Cell {
     }
     return true
   }
-
 }

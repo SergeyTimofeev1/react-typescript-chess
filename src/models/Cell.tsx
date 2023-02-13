@@ -21,6 +21,12 @@ export class Cell {
     this.id = Math.random()
   }
 
+  addLostFigure(figure: Figure) {
+    figure.color === Colors.BLACK
+      ? this.board.lostBlackFigures.push(figure)
+      : this.board.lostWhiteFigures.push(figure)
+  }
+
   // из-за кольцевой зависимости ячейки и фигуры, при ходе в конкретную ячейку
   // надо указать явно фигуру которая встает в ячейку , а у фигуры указать ячейку, в которую она встает
   setFigure(figure: Figure) {
@@ -32,6 +38,9 @@ export class Cell {
   moveFigure(target: Cell) {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure.moveFigure(target)
+      if (target.figure) {
+        this.addLostFigure(target.figure)
+      }
       target.setFigure(this.figure)
       this.figure = null
     }
